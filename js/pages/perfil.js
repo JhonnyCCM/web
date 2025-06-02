@@ -1,467 +1,643 @@
 /**
- * PerfilManager - Clase para gestionar la vista de perfil
+ * Profile Page JavaScript
+ * Maneja la funcionalidad de la página de perfil
  */
-class PerfilManager {
+
+class ProfilePage {
   constructor() {
-    // Referencias a elementos del DOM
-    this.profileNameEl = document.getElementById("profileName")
-    this.profileTitleEl = document.getElementById("profileTitle")
-    this.bioTextEl = document.getElementById("bio-text")
-    this.skillsContainerEl = document.getElementById("skillsContainer")
-    this.activityListEl = document.getElementById("activityList")
-    this.certificatesGridEl = document.getElementById("certificatesGrid")
-    this.currentCoursesEl = document.getElementById("currentCourses")
-    this.goalsListEl = document.getElementById("goalsList")
-    this.streakInfoEl = document.getElementById("streakInfo")
-    this.contactInfoEl = document.getElementById("contactInfo")
-    this.userNameEl = document.getElementById("userName")
-
-    // Modales
-    this.editProfileBtn = document.getElementById("edit-profile-btn")
-    this.editBioBtn = document.getElementById("edit-bio-btn")
-    this.editProfileModal = document.getElementById("edit-profile-modal")
-    this.cancelEditBtn = document.getElementById("cancel-edit")
-    this.saveProfileBtn = document.getElementById("save-profile")
-
-    // Estado
-    this.userData = this.loadUserData()
-
-    // Inicializar
+    this.currentUser = null
+    this.editModal = null
+    this.profileData = {}
     this.init()
   }
 
-  /**
-   * Inicializa la página
-   */
   init() {
+    this.loadCurrentUser()
+    this.createProfileData()
+    this.loadProfileData()
+    this.setupEditProfile()
+    this.setupPictureUpload()
+    this.setupSkillsAnimation()
+    this.setupGoalsInteraction()
     this.updateUserInfo()
-    this.setupEventListeners()
-    this.renderProfileData()
-
-    // Escuchar eventos del sidebar
-    window.addEventListener("sidebar:toggled", (event) => {
-      // Ajustar la vista cuando cambia el estado del sidebar
-      this.adjustLayoutForSidebar(event.detail.collapsed)
-    })
-
-    // Inicializar el estado del sidebar
-    const sidebarCollapsed = localStorage.getItem("sidebarCollapsed") === "true"
-    this.adjustLayoutForSidebar(sidebarCollapsed)
-
-    console.log("Perfil inicializado")
   }
 
   /**
-   * Actualiza la información del usuario
+   * Cargar usuario actual desde localStorage
+   */
+  loadCurrentUser() {
+    const currentUserData = localStorage.getItem("currentUser")
+    if (currentUserData) {
+      this.currentUser = JSON.parse(currentUserData)
+    }
+  }
+
+  /**
+   * Crear datos de perfil específicos para cada rol
+   */
+  createProfileData() {
+    if (!this.currentUser) return
+
+    const profileTemplates = {
+      admin: {
+        title: "Administrador del Sistema",
+        bio: "Administrador del sistema con experiencia en gestión de plataformas educativas y coordinación de equipos de trabajo.",
+        skills: [
+          { name: "Gestión de Sistemas", level: 95 },
+          { name: "Administración", level: 90 },
+          { name: "Liderazgo", level: 85 },
+          { name: "Análisis de Datos", level: 80 },
+        ],
+        stats: {
+          courses: 25,
+          hours: 320,
+          certificates: 15,
+        },
+        activities: [
+          {
+            icon: "👥",
+            title: "Usuarios gestionados",
+            description: "Administración de 150+ usuarios activos",
+            time: "hace 1 hora",
+          },
+          {
+            icon: "📊",
+            title: "Reporte generado",
+            description: "Análisis mensual de rendimiento",
+            time: "hace 3 horas",
+          },
+          {
+            icon: "⚙️",
+            title: "Sistema actualizado",
+            description: "Actualización de seguridad implementada",
+            time: "hace 1 día",
+          },
+        ],
+        goals: [
+          { icon: "🎯", text: "Optimizar rendimiento del sistema", status: "completed" },
+          { icon: "📈", text: "Aumentar satisfacción de usuarios", status: "in-progress" },
+          { icon: "🔒", text: "Implementar nuevas medidas de seguridad", status: "pending" },
+        ],
+        currentCourses: [
+          
+        ],
+      },
+      student: {
+        title: "Estudiante de Tecnología",
+        bio: "Estudiante apasionado por la tecnología y el desarrollo de software. Siempre buscando aprender nuevas herramientas y metodologías.",
+        skills: [
+          { name: "JavaScript", level: 70 },
+          { name: "HTML/CSS", level: 85 },
+          { name: "React", level: 60 },
+          { name: "Node.js", level: 55 },
+        ],
+        stats: {
+          courses: 8,
+          hours: 156,
+          certificates: 4,
+        },
+        activities: [
+          {
+            icon: "🏆",
+            title: "Certificado completado",
+            description: "JavaScript Fundamentals",
+            time: "hace 2 días",
+          },
+          {
+            icon: "📚",
+            title: "Curso iniciado",
+            description: "React Development",
+            time: "hace 1 semana",
+          },
+          {
+            icon: "✅",
+            title: "Lección completada",
+            description: "Introduction to APIs",
+            time: "hace 1 semana",
+          },
+        ],
+        goals: [
+          { icon: "🎯", text: "Completar 3 cursos este mes", status: "in-progress" },
+          { icon: "⏰", text: "Estudiar 20 horas por semana", status: "in-progress" },
+          { icon: "🏆", text: "Obtener certificación en React", status: "pending" },
+        ],
+        currentCourses: [
+         /** {
+            title: "JavaScript Avanzado",
+            progress: 65,
+            thumbnail: "/placeholder.svg?height=60&width=40",
+          },
+          {
+            title: "React Development",
+            progress: 30,
+            thumbnail: "/placeholder.svg?height=60&width=40",
+          },**/
+        ],
+      },
+      instructor: {
+        title: "Instructor de Programación",
+        bio: "Instructor experimentado en desarrollo de software con más de 5 años enseñando tecnologías web modernas.",
+        skills: [
+          { name: "Enseñanza", level: 95 },
+          { name: "JavaScript", level: 90 },
+          { name: "Python", level: 85 },
+          { name: "Desarrollo Web", level: 88 },
+        ],
+        stats: {
+          courses: 15,
+          hours: 280,
+          certificates: 12,
+        },
+        activities: [
+          {
+            icon: "👨‍🏫",
+            title: "Clase impartida",
+            description: "Advanced JavaScript Concepts",
+            time: "hace 2 horas",
+          },
+          {
+            icon: "📝",
+            title: "Material actualizado",
+            description: "Nuevos ejercicios de React",
+            time: "hace 1 día",
+          },
+          {
+            icon: "💬",
+            title: "Feedback recibido",
+            description: "Evaluación positiva de estudiantes",
+            time: "hace 2 días",
+          },
+        ],
+        goals: [
+          { icon: "🎯", text: "Crear 2 cursos nuevos este trimestre", status: "in-progress" },
+          { icon: "📊", text: "Mantener rating 4.8+ en cursos", status: "completed" },
+          { icon: "👥", text: "Alcanzar 500 estudiantes", status: "in-progress" },
+        ],
+        currentCourses: [
+          {
+            title: "Metodologías de Enseñanza",
+            progress: 80,
+            thumbnail: "/placeholder.svg?height=60&width=40",
+          },
+          {
+            title: "Nuevas Tecnologías Web",
+            progress: 55,
+            thumbnail: "/placeholder.svg?height=60&width=40",
+          },
+        ],
+      },
+    }
+
+    this.profileData = profileTemplates[this.currentUser.role] || profileTemplates.student
+  }
+
+  /**
+   * Cargar datos del perfil en la UI
+   */
+  loadProfileData() {
+    if (!this.currentUser || !this.profileData) return
+
+    // Actualizar información básica
+    document.getElementById("profileName").textContent = this.currentUser.fullName
+    document.getElementById("profileTitle").textContent = this.profileData.title
+    document.getElementById("bio-text").textContent = this.profileData.bio
+
+    // Actualizar estadísticas
+    document.getElementById("statCourses").textContent = this.profileData.stats.courses
+    document.getElementById("statHours").textContent = this.profileData.stats.hours
+    document.getElementById("statCertificates").textContent = this.profileData.stats.certificates
+
+    // Cargar habilidades
+    this.loadSkills()
+
+    // Cargar actividad reciente
+    this.loadActivity()
+
+    // Cargar certificados
+    this.loadCertificates()
+
+    // Cargar cursos actuales
+    this.loadCurrentCourses()
+
+    // Cargar metas
+    this.loadGoals()
+
+    // Cargar información de contacto
+    this.loadContactInfo()
+
+    // Cargar racha de estudio
+    this.loadStudyStreak()
+  }
+
+  /**
+   * Cargar habilidades
+   */
+  loadSkills() {
+    const skillsContainer = document.getElementById("skillsContainer")
+    if (!skillsContainer) return
+
+    skillsContainer.innerHTML = this.profileData.skills
+      .map(
+        (skill) => `
+      <div class="skill-item">
+        <span class="skill-name">${skill.name}</span>
+        <div class="skill-bar">
+          <div class="skill-progress" style="width: ${skill.level}%"></div>
+        </div>
+        <span class="skill-level">${skill.level}%</span>
+      </div>
+    `,
+      )
+      .join("")
+  }
+
+  /**
+   * Cargar actividad reciente
+   */
+  loadActivity() {
+    const activityList = document.getElementById("activityList")
+    if (!activityList) return
+
+    activityList.innerHTML = this.profileData.activities
+      .map(
+        (activity) => `
+      <div class="activity-item">
+        <div class="activity-icon">${activity.icon}</div>
+        <div class="activity-content">
+          <p class="activity-title">${activity.title}</p>
+          <p class="activity-description">${activity.description}</p>
+          <span class="activity-time">${activity.time}</span>
+        </div>
+      </div>
+    `,
+      )
+      .join("")
+  }
+
+  /**
+   * Cargar certificados
+   */
+  loadCertificates() {
+    const certificatesGrid = document.getElementById("certificatesGrid")
+    if (!certificatesGrid) return
+
+    const certificates = ["JavaScript Fundamentals", "Web Development Basics", "Advanced Programming"]
+
+    certificatesGrid.innerHTML = certificates
+      .map(
+        (cert) => `
+      <div class="certificate-card">
+        <div class="certificate-icon">🏆</div>
+        <h3>${cert}</h3>
+        <p>Completado el ${new Date().toLocaleDateString()}</p>
+        <button class="btn-download">📥 Descargar</button>
+      </div>
+    `,
+      )
+      .join("")
+  }
+
+  /**
+   * Cargar cursos actuales
+   */
+  loadCurrentCourses() {
+    const currentCourses = document.getElementById("currentCourses")
+    if (!currentCourses) return
+
+    currentCourses.innerHTML = this.profileData.currentCourses
+      .map(
+        (course) => `
+      <div class="course-item">
+        <div class="course-thumbnail">
+          <img src="${course.thumbnail}" alt="Course">
+        </div>
+        <div class="course-info">
+          <h4>${course.title}</h4>
+          <div class="course-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${course.progress}%"></div>
+            </div>
+            <span>${course.progress}%</span>
+          </div>
+        </div>
+      </div>
+    `,
+      )
+      .join("")
+  }
+
+  /**
+   * Cargar metas
+   */
+  loadGoals() {
+    const goalsList = document.getElementById("goalsList")
+    if (!goalsList) return
+
+    const statusIcons = {
+      completed: "✅",
+      "in-progress": "🔄",
+      pending: "⏳",
+    }
+
+    goalsList.innerHTML = this.profileData.goals
+      .map(
+        (goal) => `
+      <div class="goal-item">
+        <span class="goal-icon">${goal.icon}</span>
+        <span class="goal-text">${goal.text}</span>
+        <span class="goal-status ${goal.status}">${statusIcons[goal.status]}</span>
+      </div>
+    `,
+      )
+      .join("")
+  }
+
+  /**
+   * Cargar información de contacto
+   */
+  loadContactInfo() {
+    const contactInfo = document.getElementById("contactInfo")
+    if (!contactInfo) return
+
+    contactInfo.innerHTML = `
+      <div class="contact-item">
+        <span class="contact-icon">📧</span>
+        <span class="contact-text">${this.currentUser.email}</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">📍</span>
+        <span class="contact-text">Madrid, España</span>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">🌐</span>
+        <span class="contact-text">linkedin.com/in/${this.currentUser.role}-demo</span>
+      </div>
+    `
+  }
+
+  /**
+   * Cargar racha de estudio
+   */
+  loadStudyStreak() {
+    const streakInfo = document.getElementById("streakInfo")
+    if (!streakInfo) return
+
+    streakInfo.innerHTML = `
+      <div class="streak-number">🔥 15</div>
+      <p>días consecutivos</p>
+      <div class="streak-calendar">
+        <div class="day active">L</div>
+        <div class="day active">M</div>
+        <div class="day active">X</div>
+        <div class="day active">J</div>
+        <div class="day active">V</div>
+        <div class="day">S</div>
+        <div class="day">D</div>
+      </div>
+    `
+  }
+
+  /**
+   * Actualizar información del usuario en el header
    */
   updateUserInfo() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}")
-    if (this.userNameEl && currentUser.name) {
-      this.userNameEl.textContent = currentUser.name
+    const userNameElement = document.getElementById("userName")
+    if (userNameElement && this.currentUser) {
+      userNameElement.textContent = this.currentUser.fullName
     }
   }
 
   /**
-   * Configura los event listeners
+   * Configurar edición de perfil
    */
-  setupEventListeners() {
-    // Botones de edición
-    if (this.editProfileBtn) {
-      this.editProfileBtn.addEventListener("click", () => this.openEditProfileModal())
-    }
+  setupEditProfile() {
+    const editBtn = document.getElementById("edit-profile-btn")
+    const editBioBtn = document.getElementById("edit-bio-btn")
+    const modal = document.getElementById("edit-profile-modal")
+    const closeBtn = modal.querySelector(".modal-close")
+    const cancelBtn = document.getElementById("cancel-edit")
+    const saveBtn = document.getElementById("save-profile")
 
-    if (this.editBioBtn) {
-      this.editBioBtn.addEventListener("click", () => this.openEditBioModal())
-    }
+    // Abrir modal
+    editBtn.addEventListener("click", () => {
+      this.openEditModal()
+    })
 
-    // Modales
-    if (this.cancelEditBtn) {
-      this.cancelEditBtn.addEventListener("click", () => this.closeEditProfileModal())
-    }
+    editBioBtn.addEventListener("click", () => {
+      this.openEditModal()
+      setTimeout(() => {
+        document.getElementById("edit-bio").focus()
+      }, 100)
+    })
 
-    if (this.saveProfileBtn) {
-      this.saveProfileBtn.addEventListener("click", () => this.saveProfileChanges())
-    }
+    // Cerrar modal
+    closeBtn.addEventListener("click", () => {
+      this.closeEditModal()
+    })
 
-    // Cerrar modal con X
-    const closeButtons = document.querySelectorAll(".modal-close")
-    closeButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        this.closeAllModals()
-      })
+    cancelBtn.addEventListener("click", () => {
+      this.closeEditModal()
+    })
+
+    // Cerrar con backdrop
+    modal.querySelector(".modal-backdrop").addEventListener("click", (e) => {
+      if (e.target.classList.contains("modal-backdrop")) {
+        this.closeEditModal()
+      }
+    })
+
+    // Guardar cambios
+    saveBtn.addEventListener("click", () => {
+      this.saveProfile()
     })
   }
 
   /**
-   * Ajusta el layout cuando cambia el estado del sidebar
+   * Abrir modal de edición
    */
-  adjustLayoutForSidebar(collapsed) {
-    // Aquí puedes ajustar elementos específicos si es necesario
-    console.log("Sidebar collapsed:", collapsed)
+  openEditModal() {
+    const modal = document.getElementById("edit-profile-modal")
+
+    // Llenar formulario con datos actuales
+    document.getElementById("edit-name").value = this.currentUser.fullName
+    document.getElementById("edit-title").value = this.profileData.title
+    document.getElementById("edit-bio").value = this.profileData.bio
+    document.getElementById("edit-email").value = this.currentUser.email
+    document.getElementById("edit-location").value = "Madrid, España"
+    document.getElementById("edit-linkedin").value = `linkedin.com/in/${this.currentUser.role}-demo`
+
+    modal.classList.add("active")
+    document.body.style.overflow = "hidden"
   }
 
   /**
-   * Carga los datos del usuario
+   * Cerrar modal de edición
    */
-  loadUserData() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}")
-    const defaultData = {
-      name: "Usuario",
-      title: "Estudiante",
-      bio: "No hay información disponible.",
-      skills: [
-        { name: "JavaScript", level: 75 },
-        { name: "HTML & CSS", level: 90 },
-        { name: "React", level: 60 },
-        { name: "Node.js", level: 45 },
-      ],
-      activity: [],
-      certificates: [],
-      courses: [],
-      goals: [],
-      streak: 0,
-      contact: {},
+  closeEditModal() {
+    const modal = document.getElementById("edit-profile-modal")
+    modal.classList.remove("active")
+    document.body.style.overflow = ""
+  }
+
+  /**
+   * Guardar perfil
+   */
+  saveProfile() {
+    const formData = {
+      name: document.getElementById("edit-name").value,
+      title: document.getElementById("edit-title").value,
+      bio: document.getElementById("edit-bio").value,
+      email: document.getElementById("edit-email").value,
+      location: document.getElementById("edit-location").value,
+      linkedin: document.getElementById("edit-linkedin").value,
     }
 
-    return { ...defaultData, ...currentUser }
+    // Actualizar datos locales
+    this.profileData.title = formData.title
+    this.profileData.bio = formData.bio
+
+    // Actualizar DOM
+    document.getElementById("profileName").textContent = formData.name
+    document.getElementById("profileTitle").textContent = formData.title
+    document.getElementById("bio-text").textContent = formData.bio
+
+    // Cerrar modal
+    this.closeEditModal()
+
+    // Mostrar mensaje de éxito
+    this.showToast("Perfil actualizado correctamente", "success")
   }
 
   /**
-   * Renderiza los datos del perfil
+   * Configurar subida de foto de perfil
    */
-  renderProfileData() {
-    // Información básica
-    if (this.profileNameEl) this.profileNameEl.textContent = this.userData.name
-    if (this.profileTitleEl) this.profileTitleEl.textContent = this.userData.title
-    if (this.bioTextEl) this.bioTextEl.textContent = this.userData.bio
+  setupPictureUpload() {
+    const changeBtn = document.querySelector(".change-picture-btn")
 
-    // Habilidades
-    this.renderSkills()
+    changeBtn.addEventListener("click", () => {
+      const input = document.createElement("input")
+      input.type = "file"
+      input.accept = "image/*"
 
-    // Actividad reciente
-    this.renderActivity()
-
-    // Certificados
-    this.renderCertificates()
-
-    // Cursos actuales
-    this.renderCurrentCourses()
-
-    // Metas de aprendizaje
-    this.renderGoals()
-
-    // Racha de estudio
-    this.renderStreak()
-
-    // Información de contacto
-    this.renderContactInfo()
-  }
-
-  /**
-   * Renderiza las habilidades
-   */
-  renderSkills() {
-    if (!this.skillsContainerEl) return
-
-    let html = ""
-    this.userData.skills.forEach((skill) => {
-      html += `
-                <div class="skill-item">
-                    <div class="skill-name">${skill.name}</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: ${skill.level}%"></div>
-                    </div>
-                    <div class="skill-level">${skill.level}%</div>
-                </div>
-            `
-    })
-
-    this.skillsContainerEl.innerHTML = html
-  }
-
-  /**
-   * Renderiza la actividad reciente
-   */
-  renderActivity() {
-    if (!this.activityListEl) return
-
-    if (this.userData.activity && this.userData.activity.length > 0) {
-      let html = ""
-      this.userData.activity.forEach((activity) => {
-        html += `
-                    <div class="activity-item">
-                        <div class="activity-icon">${activity.icon || "📝"}</div>
-                        <div class="activity-content">
-                            <h4 class="activity-title">${activity.title}</h4>
-                            <p class="activity-description">${activity.description}</p>
-                            <span class="activity-time">${activity.time}</span>
-                        </div>
-                    </div>
-                `
-      })
-      this.activityListEl.innerHTML = html
-    } else {
-      this.activityListEl.innerHTML = "<p>No hay actividad reciente.</p>"
-    }
-  }
-
-  /**
-   * Renderiza los certificados
-   */
-  renderCertificates() {
-    if (!this.certificatesGridEl) return
-
-    if (this.userData.certificates && this.userData.certificates.length > 0) {
-      let html = ""
-      this.userData.certificates.forEach((cert) => {
-        html += `
-                    <div class="certificate-card">
-                        <div class="certificate-icon">🏆</div>
-                        <h3>${cert.name}</h3>
-                        <p>${cert.date}</p>
-                        <button class="btn-download">Descargar</button>
-                    </div>
-                `
-      })
-      this.certificatesGridEl.innerHTML = html
-    } else {
-      this.certificatesGridEl.innerHTML = "<p>No hay certificados disponibles.</p>"
-    }
-  }
-
-  /**
-   * Renderiza los cursos actuales
-   */
-  renderCurrentCourses() {
-    if (!this.currentCoursesEl) return
-
-    if (this.userData.courses && this.userData.courses.length > 0) {
-      let html = ""
-      this.userData.courses.forEach((course) => {
-        html += `
-                    <div class="course-item">
-                        <div class="course-thumbnail">
-                            <img src="/placeholder.svg?height=40&width=60" alt="${course.name}">
-                        </div>
-                        <div class="course-info">
-                            <h4>${course.name}</h4>
-                            <div class="course-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${course.progress}%"></div>
-                                </div>
-                                <span>${course.progress}%</span>
-                            </div>
-                        </div>
-                    </div>
-                `
-      })
-      this.currentCoursesEl.innerHTML = html
-    } else {
-      this.currentCoursesEl.innerHTML = "<p>No estás inscrito en ningún curso.</p>"
-    }
-  }
-
-  /**
-   * Renderiza las metas de aprendizaje
-   */
-  renderGoals() {
-    if (!this.goalsListEl) return
-
-    if (this.userData.goals && this.userData.goals.length > 0) {
-      let html = ""
-      this.userData.goals.forEach((goal) => {
-        let statusIcon = "⏳"
-        let statusClass = "in-progress"
-
-        if (goal.completed) {
-          statusIcon = "✅"
-          statusClass = "completed"
-        } else if (goal.pending) {
-          statusIcon = "⏰"
-          statusClass = "pending"
+      input.addEventListener("change", (e) => {
+        const file = e.target.files[0]
+        if (file) {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            const profileImg = document.getElementById("profile-img")
+            profileImg.src = e.target.result
+            this.showToast("Foto de perfil actualizada", "success")
+          }
+          reader.readAsDataURL(file)
         }
-
-        html += `
-                    <div class="goal-item">
-                        <div class="goal-icon">${goal.icon || "🎯"}</div>
-                        <div class="goal-text">${goal.text}</div>
-                        <div class="goal-status ${statusClass}">${statusIcon}</div>
-                    </div>
-                `
       })
-      this.goalsListEl.innerHTML = html
-    } else {
-      this.goalsListEl.innerHTML = "<p>No hay metas establecidas.</p>"
-    }
-  }
 
-  /**
-   * Renderiza la racha de estudio
-   */
-  renderStreak() {
-    if (!this.streakInfoEl) return
-
-    const streak = this.userData.streak || 0
-
-    let html = `
-            <div class="streak-number">${streak}</div>
-            <p>días consecutivos de estudio</p>
-            <div class="streak-calendar">
-        `
-
-    // Últimos 7 días
-    for (let i = 6; i >= 0; i--) {
-      const isActive = i < streak % 7
-      html += `<div class="day${isActive ? " active" : ""}">${7 - i}</div>`
-    }
-
-    html += "</div>"
-    this.streakInfoEl.innerHTML = html
-  }
-
-  /**
-   * Renderiza la información de contacto
-   */
-  renderContactInfo() {
-    if (!this.contactInfoEl) return
-
-    const contact = this.userData.contact || {}
-
-    let html = ""
-
-    if (contact.email) {
-      html += `
-                <div class="contact-item">
-                    <div class="contact-icon">✉️</div>
-                    <div class="contact-text">${contact.email}</div>
-                </div>
-            `
-    }
-
-    if (contact.phone) {
-      html += `
-                <div class="contact-item">
-                    <div class="contact-icon">📱</div>
-                    <div class="contact-text">${contact.phone}</div>
-                </div>
-            `
-    }
-
-    if (contact.location) {
-      html += `
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div class="contact-text">${contact.location}</div>
-                </div>
-            `
-    }
-
-    if (contact.linkedin) {
-      html += `
-                <div class="contact-item">
-                    <div class="contact-icon">💼</div>
-                    <div class="contact-text">${contact.linkedin}</div>
-                </div>
-            `
-    }
-
-    if (html === "") {
-      html = "<p>No hay información de contacto disponible.</p>"
-    }
-
-    this.contactInfoEl.innerHTML = html
-  }
-
-  /**
-   * Abre el modal de edición de perfil
-   */
-  openEditProfileModal() {
-    if (!this.editProfileModal) return
-
-    // Rellenar el formulario con los datos actuales
-    document.getElementById("edit-name").value = this.userData.name || ""
-    document.getElementById("edit-title").value = this.userData.title || ""
-    document.getElementById("edit-bio").value = this.userData.bio || ""
-    document.getElementById("edit-email").value = this.userData.contact?.email || ""
-    document.getElementById("edit-location").value = this.userData.contact?.location || ""
-    document.getElementById("edit-linkedin").value = this.userData.contact?.linkedin || ""
-
-    this.editProfileModal.classList.add("active")
-  }
-
-  /**
-   * Abre el modal de edición de biografía
-   */
-  openEditBioModal() {
-    if (!this.editProfileModal) return
-
-    // Rellenar solo el campo de biografía
-    document.getElementById("edit-bio").value = this.userData.bio || ""
-
-    this.editProfileModal.classList.add("active")
-  }
-
-  /**
-   * Cierra el modal de edición de perfil
-   */
-  closeEditProfileModal() {
-    if (!this.editProfileModal) return
-    this.editProfileModal.classList.remove("active")
-  }
-
-  /**
-   * Cierra todos los modales
-   */
-  closeAllModals() {
-    const modals = document.querySelectorAll(".modal")
-    modals.forEach((modal) => {
-      modal.classList.remove("active")
+      input.click()
     })
   }
 
   /**
-   * Guarda los cambios del perfil
+   * Configurar animación de skills
    */
-  saveProfileChanges() {
-    // Obtener los valores del formulario
-    const name = document.getElementById("edit-name").value
-    const title = document.getElementById("edit-title").value
-    const bio = document.getElementById("edit-bio").value
-    const email = document.getElementById("edit-email").value
-    const location = document.getElementById("edit-location").value
-    const linkedin = document.getElementById("edit-linkedin").value
+  setupSkillsAnimation() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const skillBars = entry.target.querySelectorAll(".skill-progress")
+          skillBars.forEach((bar, index) => {
+            setTimeout(() => {
+              bar.style.transform = "scaleX(1)"
+            }, index * 200)
+          })
+        }
+      })
+    })
 
-    // Actualizar los datos del usuario
-    this.userData.name = name
-    this.userData.title = title
-    this.userData.bio = bio
+    const skillsSection = document.querySelector(".skills-container")
+    if (skillsSection) {
+      const skillBars = skillsSection.querySelectorAll(".skill-progress")
+      skillBars.forEach((bar) => {
+        bar.style.transformOrigin = "left"
+        bar.style.transform = "scaleX(0)"
+        bar.style.transition = "transform 0.8s ease"
+      })
 
-    if (!this.userData.contact) this.userData.contact = {}
-    this.userData.contact.email = email
-    this.userData.contact.location = location
-    this.userData.contact.linkedin = linkedin
+      observer.observe(skillsSection)
+    }
+  }
 
-    // Guardar en localStorage
-    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}")
-    const updatedUser = { ...currentUser, ...this.userData }
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser))
+  /**
+   * Configurar interacción con metas
+   */
+  setupGoalsInteraction() {
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".goal-item")) {
+        const goalItem = e.target.closest(".goal-item")
+        const status = goalItem.querySelector(".goal-status")
+        const currentClass = status.className.split(" ")[1]
 
-    // Actualizar la interfaz
-    this.renderProfileData()
-    this.updateUserInfo()
+        if (currentClass === "pending") {
+          status.className = "goal-status in-progress"
+          status.textContent = "🔄"
+        } else if (currentClass === "in-progress") {
+          status.className = "goal-status completed"
+          status.textContent = "✅"
+        } else {
+          status.className = "goal-status pending"
+          status.textContent = "⏳"
+        }
+      }
+    })
+  }
 
-    // Cerrar el modal
-    this.closeEditProfileModal()
+  /**
+   * Mostrar toast de notificación
+   */
+  showToast(message, type = "info") {
+    const toast = document.createElement("div")
+    toast.className = `toast toast-${type}`
+    toast.textContent = message
+
+    Object.assign(toast.style, {
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      background: type === "success" ? "#10b981" : "#6366f1",
+      color: "white",
+      padding: "1rem 1.5rem",
+      borderRadius: "8px",
+      zIndex: "1001",
+      transform: "translateX(100%)",
+      transition: "transform 0.3s ease",
+    })
+
+    document.body.appendChild(toast)
+
+    setTimeout(() => {
+      toast.style.transform = "translateX(0)"
+    }, 100)
+
+    setTimeout(() => {
+      toast.style.transform = "translateX(100%)"
+      setTimeout(() => {
+        document.body.removeChild(toast)
+      }, 300)
+    }, 3000)
   }
 }
 
-// Inicializar cuando se carga el DOM
-document.addEventListener("DOMContentLoaded", () => {
-  window.perfilManager = new PerfilManager()
-})
-
-// Funciones globales para acceso desde HTML
+// Funciones globales
 function toggleUserMenu() {
-  // Implementación del toggle del menú de usuario
   console.log("Toggle user menu")
 }
+
+function logout() {
+  localStorage.removeItem("currentUser")
+  localStorage.removeItem("rememberMe")
+  window.location.href = "../index.html"
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", () => {
+  new ProfilePage()
+})
