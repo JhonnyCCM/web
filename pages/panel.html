@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/calendar.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/pages/panel.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Panel</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Panel</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Joseph Mitchell</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-container">
+                <!-- Left Column -->
+                <div class="dashboard-left">
+                    <!-- Course Schedule -->
+                    <div class="widget course-schedule">
+                        <div class="widget-header">
+                            <h3>Cronograma de Cursos</h3>
+                            <button class="widget-menu">⋯</button>
+                        </div>
+                        <div class="schedule-list" id="scheduleList">
+                            <!-- Se cargará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Illustration -->
+                    <div class="illustration-widget">
+                        <div class="illustration-container">
+                            <img src="/placeholder.svg?height=300&width=400" alt="Learning Illustration" class="illustration-image">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="dashboard-right">
+                    <!-- Continue Learning -->
+                    <div class="widget continue-learning">
+                        <div class="widget-header">
+                            <h3>Continuar Aprendiendo</h3>
+                        </div>
+                        <div class="learning-cards" id="learningCards">
+                            <!-- Se cargará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Hours Spent Chart -->
+                    <div class="widget hours-chart">
+                        <div class="widget-header">
+                            <h3>Horas Dedicadas</h3>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color ui-design"></span>
+                                    <span class="legend-text">UI/UX Design</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color digital-marketing"></span>
+                                    <span class="legend-text">Digital Marketing</span>
+                                </div>
+                            </div>
+                            <div class="bar-chart" id="hoursChart">
+                                <!-- Se cargará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Chart -->
+                    <div class="widget progress-chart">
+                        <div class="widget-header">
+                            <h3>Progreso</h3>
+                            <button class="widget-menu">⋯</button>
+                        </div>
+                        <div class="progress-container">
+                            <div class="circular-progress" id="circularProgress">
+                                <div class="progress-circle">
+                                    <div class="progress-text">
+                                        <span class="progress-percentage">65%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color completed"></span>
+                                    <span class="legend-text">Completado</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color in-progress"></span>
+                                    <span class="legend-text">En progreso</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- My Assignments -->
+                    <div class="widget assignments">
+                        <div class="widget-header">
+                            <h3>Mis Tareas</h3>
+                            <span class="update-date">Actualizado • 12 Oct 2023</span>
+                        </div>
+                        <div class="assignments-table" id="assignmentsTable">
+                            <!-- Se cargará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/panel.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+</body>
+</html>

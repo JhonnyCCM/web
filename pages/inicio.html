@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <link rel="stylesheet" href="../css/pages/inicio.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Inicio</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar cursos, instructores..." id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Joseph Mitchell</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">
+                            Domina las habilidades del
+                            <span class="gradient-text">futuro digital</span>
+                        </h1>
+                        <p class="hero-description">
+                            Únete a más de 50,000 estudiantes que ya transformaron sus carreras. 
+                            Cursos prácticos, certificados reconocidos y soporte 24/7.
+                        </p>
+                        <div class="hero-features">
+                            <div class="feature-highlight">
+                                <span class="feature-icon">✓</span>
+                                <span>Certificados oficiales</span>
+                            </div>
+                            <div class="feature-highlight">
+                                <span class="feature-icon">✓</span>
+                                <span>Proyectos reales</span>
+                            </div>
+                            <div class="feature-highlight">
+                                <span class="feature-icon">✓</span>
+                                <span>Mentorías personalizadas</span>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="btn-primary hero-btn" onclick="window.location.href='cursos.html'">
+                                Comenzar Ahora
+                                <span class="btn-icon">🚀</span>
+                            </button>
+                            <div class="price-highlight">
+                                <span class="price-text">Desde</span>
+                                <span class="price-amount">$99</span>
+                                <span class="price-period">/curso</span>
+                            </div>
+                        </div>
+                        <div class="social-proof">
+                            <div class="rating-display">
+                                <div class="stars">⭐⭐⭐⭐⭐</div>
+                                <span class="rating-text">4.9/5 basado en 2,847 reseñas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="floating-cards">
+                            <div class="floating-card card-1">
+                                <div class="card-icon">🎨</div>
+                                <div class="card-content">
+                                    <h4>UI/UX Design</h4>
+                                    <p>120 estudiantes</p>
+                                </div>
+                            </div>
+                            <div class="floating-card card-2">
+                                <div class="card-icon">💻</div>
+                                <div class="card-content">
+                                    <h4>Desarrollo Web</h4>
+                                    <p>89 estudiantes</p>
+                                </div>
+                            </div>
+                            <div class="floating-card card-3">
+                                <div class="card-icon">📱</div>
+                                <div class="card-content">
+                                    <h4>Marketing Digital</h4>
+                                    <p>156 estudiantes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-illustration">
+                            <div class="illustration-bg"></div>
+                            <div class="geometric-shapes">
+                                <div class="shape shape-1"></div>
+                                <div class="shape shape-2"></div>
+                                <div class="shape shape-3"></div>
+                                <div class="shape shape-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats Section -->
+            <section class="quick-stats">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-info">
+                            <h3 class="stat-title">Tu Progreso</h3>
+                            <p class="stat-value">75% Completado</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <h3 class="stat-title">Certificados</h3>
+                            <p class="stat-value">3 Obtenidos</p>
+                            <span class="stat-badge">+2 este mes</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <h3 class="stat-title">Tiempo de Estudio</h3>
+                            <p class="stat-value">24.5 horas</p>
+                            <span class="stat-badge">Esta semana</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-info">
+                            <h3 class="stat-title">Racha de Estudio</h3>
+                            <p class="stat-value">12 días</p>
+                            <span class="stat-badge">¡Sigue así!</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Courses Carousel -->
+            <section class="featured-courses">
+                <div class="section-header">
+                    <h2 class="section-title">Cursos Destacados</h2>
+                    <p class="section-subtitle">Los cursos más populares de nuestra plataforma</p>
+                    <button class="see-all-btn" onclick="window.location.href='cursos.html'">
+                        Ver todos los cursos →
+                    </button>
+                </div>
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <button class="carousel-btn prev-btn" id="prevBtn">‹</button>
+                        <div class="carousel-track" id="carouselTrack">
+                            <!-- Los cursos se cargarán dinámicamente -->
+                        </div>
+                        <button class="carousel-btn next-btn" id="nextBtn">›</button>
+                    </div>
+                    <div class="carousel-indicators" id="carouselIndicators">
+                        <!-- Los indicadores se generarán dinámicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Path -->
+            <section class="learning-path">
+                <div class="path-header">
+                    <h2 class="section-title">Tu Ruta de Aprendizaje</h2>
+                    <p class="section-subtitle">Continúa donde lo dejaste</p>
+                </div>
+                <div class="path-timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-marker">✓</div>
+                        <div class="timeline-content">
+                            <h4>Fundamentos de UI/UX</h4>
+                            <p>Completado • 8 lecciones</p>
+                            <div class="timeline-progress">100%</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item current">
+                        <div class="timeline-marker">📚</div>
+                        <div class="timeline-content">
+                            <h4>Diseño de Interfaces Avanzado</h4>
+                            <p>En progreso • 5 de 12 lecciones</p>
+                            <div class="timeline-progress">42%</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-marker">🔒</div>
+                        <div class="timeline-content">
+                            <h4>Prototipado y Testing</h4>
+                            <p>Próximamente • 10 lecciones</p>
+                            <div class="timeline-progress">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="testimonials">
+                <div class="section-header">
+                    <h2 class="section-title">Lo que dicen nuestros estudiantes</h2>
+                    <p class="section-subtitle">Historias reales de éxito</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                            <p>"CourseConnect cambió mi carrera completamente. Los cursos son de alta calidad y los instructores son increíbles."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="/placeholder.svg?height=50&width=50" alt="María García" class="author-avatar">
+                            <div class="author-info">
+                                <h4>María García</h4>
+                                <p>UX Designer en Google</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                            <p>"La flexibilidad de aprender a mi ritmo fue clave para conseguir mi nuevo trabajo como desarrollador."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="/placeholder.svg?height=50&width=50" alt="Carlos López" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Carlos López</h4>
+                                <p>Full Stack Developer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                            <p>"Los proyectos prácticos me ayudaron a construir un portafolio sólido que impresionó a los reclutadores."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="/placeholder.svg?height=50&width=50" alt="Ana Martínez" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Ana Martínez</h4>
+                                <p>Product Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agregar nueva sección de garantía y beneficios -->
+            <section class="benefits-section">
+                <div class="benefits-container">
+                    <h2 class="benefits-title">¿Por qué elegir CourseConnect?</h2>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🎯</div>
+                            <h3>Aprendizaje Práctico</h3>
+                            <p>Proyectos reales que puedes agregar a tu portafolio profesional</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">👨‍🏫</div>
+                            <h3>Instructores Expertos</h3>
+                            <p>Aprende de profesionales que trabajan en las mejores empresas</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🏆</div>
+                            <h3>Certificación Reconocida</h3>
+                            <p>Certificados avalados por la industria que impulsan tu carrera</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">💬</div>
+                            <h3>Soporte 24/7</h3>
+                            <p>Comunidad activa y mentores disponibles cuando los necesites</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agregar sección de garantía -->
+            <section class="guarantee-section">
+                <div class="guarantee-content">
+                    <div class="guarantee-badge">
+                        <div class="badge-icon">🛡️</div>
+                        <div class="badge-text">
+                            <h3>Garantía de 30 días</h3>
+                            <p>Si no estás satisfecho, te devolvemos tu dinero</p>
+                        </div>
+                    </div>
+                    <div class="guarantee-features">
+                        <div class="guarantee-item">
+                            <span class="guarantee-icon">💰</span>
+                            <span>Reembolso completo</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <span class="guarantee-icon">⚡</span>
+                            <span>Acceso inmediato</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <span class="guarantee-icon">🔄</span>
+                            <span>Actualizaciones gratuitas</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2 class="cta-title">¿Listo para comenzar tu transformación?</h2>
+                    <p class="cta-description">
+                        Únete a miles de estudiantes que ya están construyendo su futuro profesional
+                    </p>
+                    <div class="cta-actions">
+                        <button class="btn-primary cta-btn" onclick="window.location.href='cursos.html'">
+                            Comenzar Ahora
+                            <span class="btn-icon">🚀</span>
+                        </button>
+                        <div class="cta-features">
+                            <div class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Acceso de por vida</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Certificados oficiales</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Soporte 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cta-visual">
+                    <div class="success-metrics">
+                        <div class="metric-item">
+                            <div class="metric-icon">📊</div>
+                            <div class="metric-text">
+                                <span class="metric-number">+300%</span>
+                                <span class="metric-label">Aumento salarial promedio</span>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-icon">💼</div>
+                            <div class="metric-text">
+                                <span class="metric-number">85%</span>
+                                <span class="metric-label">Consigue trabajo en 6 meses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/inicio.js"></script>
+</body>
+</html>

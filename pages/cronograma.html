@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/layout.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/pages/cronograma.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar izquierdo -->
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Cronograma</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Cronograma</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar eventos..." id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Joseph Mitchell</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="container">
+                <!-- Page Title -->
+                <div class="page-title-section">
+                    <div class="title-content">
+                        <h1 class="page-title">Mi Cronograma</h1>
+                        <p class="page-subtitle">25 - 31 mayo, 2025</p>
+                    </div>
+                    <div class="title-actions">
+                        <button class="btn btn-primary" id="addEventBtn">
+                            <span class="btn-icon">+</span>
+                            Agregar Evento
+                        </button>
+                        <div class="view-toggle">
+                            <button class="view-btn" data-view="day">Día</button>
+                            <button class="view-btn active" data-view="week">Semana</button>
+                            <button class="view-btn" data-view="month">Mes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Layout -->
+                <div class="calendar-layout">
+                    <!-- Left Panel -->
+                    <div class="calendar-sidebar">
+                        <!-- Mini Calendar -->
+                        <div class="mini-calendar-widget">
+                            <div class="mini-calendar-header">
+                                <button class="mini-nav-btn" id="miniPrevBtn">‹</button>
+                                <span class="mini-month" id="miniMonth">mayo de 2025</span>
+                                <button class="mini-nav-btn" id="miniNextBtn">›</button>
+                            </div>
+                            <div class="mini-calendar-days">
+                                <div class="mini-day-header">L</div>
+                                <div class="mini-day-header">M</div>
+                                <div class="mini-day-header">M</div>
+                                <div class="mini-day-header">J</div>
+                                <div class="mini-day-header">V</div>
+                                <div class="mini-day-header">S</div>
+                                <div class="mini-day-header">D</div>
+                            </div>
+                            <div class="mini-calendar-grid" id="miniCalendarGrid">
+                                <!-- Mini calendar se genera dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- My Calendars -->
+                        <div class="calendar-section">
+                            <div class="section-header">
+                                <h3>Mis Calendarios</h3>
+                                <button class="edit-btn">Editar</button>
+                            </div>
+                            <div class="calendar-list">
+                                <label class="calendar-item">
+                                    <input type="checkbox" checked data-calendar="courses">
+                                    <span class="calendar-color courses"></span>
+                                    <span class="calendar-name">Cursos</span>
+                                </label>
+                                <label class="calendar-item">
+                                    <input type="checkbox" checked data-calendar="assignments">
+                                    <span class="calendar-color assignments"></span>
+                                    <span class="calendar-name">Tareas</span>
+                                </label>
+                                <label class="calendar-item">
+                                    <input type="checkbox" checked data-calendar="exams">
+                                    <span class="calendar-color exams"></span>
+                                    <span class="calendar-name">Exámenes</span>
+                                </label>
+                                <label class="calendar-item">
+                                    <input type="checkbox" checked data-calendar="meetings">
+                                    <span class="calendar-color meetings"></span>
+                                    <span class="calendar-name">Reuniones</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Calendar View -->
+                    <div class="calendar-main">
+                        <!-- Time Zone Info -->
+                        <div class="timezone-info">
+                            <span>GMT -05</span>
+                        </div>
+
+                        <!-- Calendar Header -->
+                        <div class="calendar-header-days" id="calendarHeaderDays">
+                            <div class="day-header time-header"></div>
+                            <div class="day-header">
+                                <div class="day-date">25</div>
+                                <div class="day-name">dom</div>
+                            </div>
+                            <div class="day-header">
+                                <div class="day-date">26</div>
+                                <div class="day-name">lun</div>
+                            </div>
+                            <div class="day-header">
+                                <div class="day-date">27</div>
+                                <div class="day-name">mar</div>
+                            </div>
+                            <div class="day-header">
+                                <div class="day-date">28</div>
+                                <div class="day-name">mié</div>
+                            </div>
+                            <div class="day-header">
+                                <div class="day-date">29</div>
+                                <div class="day-name">jue</div>
+                            </div>
+                            <div class="day-header">
+                                <div class="day-date">30</div>
+                                <div class="day-name">vie</div>
+                            </div>
+                            <div class="day-header today">
+                                <div class="day-date">31</div>
+                                <div class="day-name">sáb</div>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Grid Container -->
+                        <div class="calendar-grid-container">
+                            <div class="time-column" id="timeColumn">
+                                <div class="time-slot">05:00</div>
+                                <div class="time-slot">06:00</div>
+                                <div class="time-slot">07:00</div>
+                                <div class="time-slot">08:00</div>
+                                <div class="time-slot">09:00</div>
+                                <div class="time-slot">10:00</div>
+                                <div class="time-slot">11:00</div>
+                                <div class="time-slot">12:00</div>
+                                <div class="time-slot">13:00</div>
+                                <div class="time-slot">14:00</div>
+                                <div class="time-slot">15:00</div>
+                                <div class="time-slot">16:00</div>
+                                <div class="time-slot">17:00</div>
+                                <div class="time-slot">18:00</div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Grid del calendario se genera dinámicamente -->
+                                <div class="calendar-column" data-day="25">
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="26">
+                                    <!-- Horas para el día 26 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="27">
+                                    <!-- Horas para el día 27 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="28">
+                                    <!-- Horas para el día 28 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="29">
+                                    <!-- Horas para el día 29 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="30">
+                                    <!-- Horas para el día 30 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10"></div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                                <!-- Repetir para los demás días -->
+                                <div class="calendar-column" data-day="31">
+                                    <!-- Horas para el día 31 -->
+                                    <div class="hour-slot" data-hour="5"></div>
+                                    <div class="hour-slot" data-hour="6"></div>
+                                    <div class="hour-slot" data-hour="7"></div>
+                                    <div class="hour-slot" data-hour="8"></div>
+                                    <div class="hour-slot" data-hour="9"></div>
+                                    <div class="hour-slot" data-hour="10">
+                                        <div class="event-card courses" style="top: 0; height: 90px;">
+                                            <div class="event-title">Clase de UI/UX Design</div>
+                                            <div class="event-time">10:00 - 11:30</div>
+                                            <div class="event-participants">
+                                                <div class="participant-avatar">JM</div>
+                                                <div class="participant-avatar">AS</div>
+                                                <div class="participant-avatar">CS</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hour-slot" data-hour="11"></div>
+                                    <div class="hour-slot" data-hour="12"></div>
+                                    <div class="hour-slot" data-hour="13"></div>
+                                    <div class="hour-slot" data-hour="14"></div>
+                                    <div class="hour-slot" data-hour="15"></div>
+                                    <div class="hour-slot" data-hour="16"></div>
+                                    <div class="hour-slot" data-hour="17"></div>
+                                    <div class="hour-slot" data-hour="18"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para agregar/editar evento -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nuevo Evento</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <input type="hidden" id="eventId">
+                    
+                    <div class="form-group">
+                        <label for="eventTitle">Título *</label>
+                        <input type="text" id="eventTitle" name="title" required placeholder="Ej: Clase de JavaScript">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventDescription">Descripción</label>
+                        <textarea id="eventDescription" name="description" rows="3" placeholder="Descripción del evento..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDate">Fecha *</label>
+                            <input type="date" id="eventDate" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventTime">Hora *</label>
+                            <input type="time" id="eventTime" name="time" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDuration">Duración (minutos)</label>
+                            <input type="number" id="eventDuration" name="duration" min="15" max="480" value="60">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventType">Tipo</label>
+                            <select id="eventType" name="type">
+                                <option value="courses">Curso</option>
+                                <option value="assignments">Tarea</option>
+                                <option value="exams">Examen</option>
+                                <option value="meetings">Reunión</option>
+                                <option value="study">Estudio</option>
+                                <option value="project">Proyecto</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventCourse">Curso</label>
+                        <select id="eventCourse" name="course">
+                            <option value="">Seleccionar curso</option>
+                            <option value="ui-ux">UI/UX Designer</option>
+                            <option value="javascript">JavaScript Pro</option>
+                            <option value="react">React Masterclass</option>
+                            <option value="node">Node.js Backend</option>
+                            <option value="python">Python Fundamentals</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventPriority">Prioridad</label>
+                        <select id="eventPriority" name="priority">
+                            <option value="low">Baja</option>
+                            <option value="medium" selected>Media</option>
+                            <option value="high">Alta</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancelBtn">Cancelar</button>
+                <button type="button" class="btn-danger" id="deleteBtn" style="display: none;">Eliminar</button>
+                <button type="button" class="btn-primary" id="saveBtn">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - MISMO ORDEN QUE CURSOS.HTML -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/cronograma.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+</body>
+</html>

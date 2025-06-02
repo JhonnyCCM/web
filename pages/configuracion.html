@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/layout.css">
+    <style>
+        .config-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+        }
+        
+        .construction-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .construction-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .construction-message {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        
+        .back-button {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .back-button:hover {
+            background-color: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Configuración</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Configuración</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn" onclick="showNotificationsModal()">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Usuario</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido de la página -->
+            <div class="config-container">
+                <div class="construction-icon">🚧</div>
+                <h2 class="construction-title">Página en Construcción</h2>
+                <p class="construction-message">
+                    Esta sección estará disponible próximamente.<br>
+                    Estamos trabajando para ofrecerte las mejores opciones de configuración.
+                </p>
+                <button class="back-button" onclick="window.history.back()">
+                    ← Volver
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/components/notifications.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+    <script>
+        class ConfigManager {
+            constructor() {
+                this.init()
+            }
+            
+            init() {
+                this.updateUserInfo()
+                this.adjustLayoutForSidebar()
+            }
+            
+            updateUserInfo() {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    const userNameElement = document.getElementById('userName');
+                    if (userNameElement) {
+                        userNameElement.textContent = currentUser.fullName;
+                    }
+                }
+            }
+            
+            adjustLayoutForSidebar() {
+                const mainContent = document.getElementById('mainContent');
+                if (mainContent) {
+                    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                    if (sidebarCollapsed) {
+                        mainContent.classList.add('sidebar-collapsed');
+                    }
+                }
+                
+                document.addEventListener('sidebar:toggled', (e) => {
+                    const mainContent = document.getElementById('mainContent');
+                    if (mainContent) {
+                        if (e.detail.collapsed) {
+                            mainContent.classList.add('sidebar-collapsed');
+                        } else {
+                            mainContent.classList.remove('sidebar-collapsed');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Inicializar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            window.configManager = new ConfigManager();
+        });
+
+        function toggleUserMenu() {
+            console.log('Toggle user menu');
+        }
+    </script>
+</body>
+</html>

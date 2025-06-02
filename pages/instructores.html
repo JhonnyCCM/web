@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructores - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/layout.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <style>
+        .instructors-container {
+            padding: 20px;
+        }
+        
+        .instructors-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .instructor-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .instructor-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .instructor-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .instructor-info {
+            flex: 1;
+        }
+        
+        .instructor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .instructor-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .instructor-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .rating-stars {
+            color: #f59e0b;
+        }
+        
+        .rating-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .instructor-body {
+            padding: 20px;
+        }
+        
+        .instructor-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .instructor-stat {
+            text-align: center;
+            padding: 10px;
+            background-color: var(--bg-muted);
+            border-radius: var(--border-radius);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .instructor-courses {
+            margin-top: 15px;
+        }
+        
+        .courses-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .course-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .course-item:last-child {
+            border-bottom: none;
+        }
+        
+        .course-icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .course-info {
+            flex: 1;
+        }
+        
+        .course-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        
+        .course-students {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .instructor-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <a href="usuarios.html" class="breadcrumb-link">Usuarios</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Instructores</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Gestión de Instructores</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar instructores" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn" onclick="showNotificationsModal()">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Usuario</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido de la página -->
+            <div class="instructors-container">
+                <div class="instructors-header">
+                    <h2>Lista de Instructores</h2>
+                    <button class="btn btn-primary">+ Añadir Instructor</button>
+                </div>
+                
+                <div class="instructors-grid" id="instructorsGrid">
+                    <!-- Se cargará dinámicamente -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/components/notifications.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+    <script>
+        class InstructorsManager {
+            constructor() {
+                this.instructors = [
+                    {
+                        id: 1,
+                        name: "John Smith",
+                        title: "Profesor de Marketing Digital",
+                        avatar: "/placeholder.svg?height=70&width=70",
+                        rating: 4.8,
+                        ratingCount: 124,
+                        courses: 5,
+                        students: 320,
+                        reviews: 98,
+                        activeCourses: [
+                            { name: "Marketing Digital Avanzado", students: 85, icon: "📱" },
+                            { name: "SEO y SEM", students: 64, icon: "🔍" },
+                            { name: "Estrategias de Contenido", students: 42, icon: "📝" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        name: "Jane Doe",
+                        title: "Experta en Diseño UX/UI",
+                        avatar: "/placeholder.svg?height=70&width=70",
+                        rating: 4.9,
+                        ratingCount: 156,
+                        courses: 3,
+                        students: 285,
+                        reviews: 112,
+                        activeCourses: [
+                            { name: "Fundamentos de UX/UI", students: 120, icon: "🎨" },
+                            { name: "Diseño de Interfaces", students: 95, icon: "💻" },
+                            { name: "Prototipado Avanzado", students: 70, icon: "📱" }
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: "Robert Johnson",
+                        title: "Instructor de Desarrollo Web",
+                        avatar: "/placeholder.svg?height=70&width=70",
+                        rating: 4.7,
+                        ratingCount: 89,
+                        courses: 4,
+                        students: 210,
+                        reviews: 76,
+                        activeCourses: [
+                            { name: "HTML y CSS Avanzado", students: 65, icon: "💻" },
+                            { name: "JavaScript Moderno", students: 78, icon: "📊" },
+                            { name: "React para Principiantes", students: 67, icon: "⚛️" }
+                        ]
+                    },
+                    {
+                        id: 4,
+                        name: "Maria García",
+                        title: "Especialista en Data Science",
+                        avatar: "/placeholder.svg?height=70&width=70",
+                        rating: 4.6,
+                        ratingCount: 72,
+                        courses: 2,
+                        students: 145,
+                        reviews: 53,
+                        activeCourses: [
+                            { name: "Introducción a Python", students: 85, icon: "🐍" },
+                            { name: "Análisis de Datos", students: 60, icon: "📊" }
+                        ]
+                    }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                this.renderInstructors();
+                this.setupEventListeners();
+                this.updateUserInfo();
+                this.adjustLayoutForSidebar();
+            }
+            
+            renderInstructors() {
+                const instructorsGrid = document.getElementById('instructorsGrid');
+                if (!instructorsGrid) return;
+                
+                instructorsGrid.innerHTML = this.instructors.map(instructor => this.createInstructorCard(instructor)).join('');
+            }
+            
+            createInstructorCard(instructor) {
+                // Generar estrellas de calificación
+                const fullStars = Math.floor(instructor.rating);
+                const hasHalfStar = instructor.rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                
+                let starsHtml = '';
+                for (let i = 0; i < fullStars; i++) {
+                    starsHtml += '★';
+                }
+                if (hasHalfStar) {
+                    starsHtml += '★';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    starsHtml += '☆';
+                }
+                
+                // Generar cursos activos
+                const coursesHtml = instructor.activeCourses.map(course => `
+                    <div class="course-item">
+                        <div class="course-icon">${course.icon}</div>
+                        <div class="course-info">
+                            <div class="course-name">${course.name}</div>
+                            <div class="course-students">${course.students} estudiantes</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                return `
+                    <div class="instructor-card">
+                        <div class="instructor-header">
+                            <img src="${instructor.avatar}" alt="${instructor.name}" class="instructor-avatar">
+                            <div class="instructor-info">
+                                <div class="instructor-name">${instructor.name}</div>
+                                <div class="instructor-title">${instructor.title}</div>
+                                <div class="instructor-rating">
+                                    <div class="rating-stars">${starsHtml}</div>
+                                    <div class="rating-count">(${instructor.ratingCount} reseñas)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="instructor-body">
+                            <div class="instructor-stats">
+                                <div class="instructor-stat">
+                                    <div class="stat-value">${instructor.courses}</div>
+                                    <div class="stat-label">Cursos</div>
+                                </div>
+                                <div class="instructor-stat">
+                                    <div class="stat-value">${instructor.students}</div>
+                                    <div class="stat-label">Estudiantes</div>
+                                </div>
+                                <div class="instructor-stat">
+                                    <div class="stat-value">${instructor.reviews}</div>
+                                    <div class="stat-label">Reseñas</div>
+                                </div>
+                            </div>
+                            <div class="instructor-courses">
+                                <div class="courses-title">Cursos Activos</div>
+                                ${coursesHtml}
+                            </div>
+                        </div>
+                        <div class="instructor-footer">
+                            <button class="btn btn-sm btn-secondary">Ver Perfil</button>
+                            <button class="btn btn-sm btn-primary">Contactar</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            setupEventListeners() {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.toLowerCase();
+                        const filteredInstructors = this.instructors.filter(instructor => 
+                            instructor.name.toLowerCase().includes(query) || 
+                            instructor.title.toLowerCase().includes(query) ||
+                            instructor.activeCourses.some(course => course.name.toLowerCase().includes(query))
+                        );
+                        this.renderFilteredInstructors(filteredInstructors);
+                    });
+                }
+            }
+            
+            renderFilteredInstructors(filteredInstructors) {
+                const instructorsGrid = document.getElementById('instructorsGrid');
+                if (!instructorsGrid) return;
+                
+                if (filteredInstructors.length === 0) {
+                    instructorsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <p>No se encontraron instructores que coincidan con tu búsqueda.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                instructorsGrid.innerHTML = filteredInstructors.map(instructor => this.createInstructorCard(instructor)).join('');
+            }
+            
+            updateUserInfo() {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    const userNameElement = document.getElementById('userName');
+                    if (userNameElement) {
+                        userNameElement.textContent = currentUser.fullName;
+                    }
+                }
+            }
+            
+            adjustLayoutForSidebar() {
+                const mainContent = document.getElementById('mainContent');
+                if (mainContent) {
+                    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                    if (sidebarCollapsed) {
+                        mainContent.classList.add('sidebar-collapsed');
+                    }
+                }
+                
+                document.addEventListener('sidebar:toggled', (e) => {
+                    const mainContent = document.getElementById('mainContent');
+                    if (mainContent) {
+                        if (e.detail.collapsed) {
+                            mainContent.classList.add('sidebar-collapsed');
+                        } else {
+                            mainContent.classList.remove('sidebar-collapsed');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Inicializar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            window.instructorsManager = new InstructorsManager();
+        });
+
+        function toggleUserMenu() {
+            console.log('Toggle user menu');
+        }
+    </script>
+</body>
+</html>

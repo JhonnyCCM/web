@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <link rel="stylesheet" href="../css/components/calendar.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/pages/cursos.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar izquierdo -->
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Cursos</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Cursos</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Joseph Mitchell</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Filtros de categorías -->
+            <div class="category-filters">
+                <button class="filter-tab active" data-category="all">Todos</button>
+                <button class="filter-tab" data-category="advertising">Publicidad</button>
+                <button class="filter-tab" data-category="design">Diseño</button>
+                <button class="filter-tab" data-category="marketing">Marketing</button>
+                <button class="filter-tab" data-category="illustration">Ilustración</button>
+                <button class="filter-tab" data-category="brand">Marca</button>
+            </div>
+
+            <!-- Grid de cursos -->
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Los cursos se cargarán dinámicamente aquí -->
+            </div>
+
+            <!-- Botón para agregar curso (solo para admin/instructor) -->
+            <button class="add-course-btn" id="addCourseBtn" onclick="openCourseModal()">
+                <span class="add-icon">+</span>
+                <span class="add-text">Agregar Curso</span>
+            </button>
+        </main>
+
+        <!-- Sidebar derecho -->
+        <aside class="right-sidebar">
+            <!-- Calendario -->
+            <div class="calendar-widget">
+                <div id="calendar-container"></div>
+            </div>
+
+            <!-- Mentores -->
+            <div class="mentors-widget">
+                <div class="widget-header">
+                    <h3>Mentores</h3>
+                    <button class="see-all-btn">Ver todos ›</button>
+                </div>
+                <div class="mentors-list" id="mentorsList">
+                    <!-- Los mentores se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Progreso de aprendizaje -->
+            <div class="progress-widget">
+                <div class="widget-header">
+                    <h3>Proceso de Aprendizaje</h3>
+                    <button class="see-all-btn">Ver todos ›</button>
+                </div>
+                <div class="progress-list" id="progressList">
+                    <!-- El progreso se cargará dinámicamente -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal para agregar/editar curso -->
+    <div class="modal-overlay" id="courseModal" style="display: none;">
+        <div class="modal-content course-modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Agregar Nuevo Curso</h3>
+                <button type="button" class="modal-close" onclick="closeCourseModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <input type="hidden" id="courseId" name="courseId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseTitle">Título del Curso</label>
+                            <input type="text" id="courseTitle" name="title" required placeholder="Ej: UI/UX Designer">
+                        </div>
+                        <div class="form-group">
+                            <label for="coursePrice">Precio ($)</label>
+                            <input type="number" id="coursePrice" name="price" required placeholder="1600">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseDescription">Descripción</label>
+                        <textarea id="courseDescription" name="description" required placeholder="Descripción del curso..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseCategory">Categoría</label>
+                            <select id="courseCategory" name="category" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="design">Design</option>
+                                <option value="development">Development</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="advertising">Advertising</option>
+                                <option value="illustration">Illustration</option>
+                                <option value="brand">Brand</option>
+                                <option value="engineering">Engineering</option>
+                                <option value="testing">Testing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseRating">Rating</label>
+                            <input type="number" id="courseRating" name="rating" min="1" max="5" step="0.1" placeholder="4.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseStartDate">Fecha de Inicio</label>
+                            <input type="date" id="courseStartDate" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="courseEndDate">Fecha de Fin</label>
+                            <input type="date" id="courseEndDate" name="endDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseImage">URL de Imagen</label>
+                        <input type="url" id="courseImage" name="image" placeholder="https://ejemplo.com/imagen.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseTags">Etiquetas (separadas por coma)</label>
+                        <input type="text" id="courseTags" name="tags" placeholder="UI/UX, Web, Design">
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeCourseModal()">Cancelar</button>
+                        <button type="submit" class="btn-primary">
+                            <span id="submitBtnText">Crear Curso</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="modal-overlay" id="deleteModal" style="display: none;">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h3>Confirmar Eliminación</h3>
+                <button type="button" class="modal-close" onclick="closeDeleteModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que quieres eliminar este curso? Esta acción no se puede deshacer.</p>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+                    <button type="button" class="btn-danger" onclick="confirmDelete()">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../js/components/calendar.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/cursos.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/pages/registro.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">COURSECONNECT</span>
+                </div>
+                <h1>Crear Cuenta</h1>
+                <p>Únete a nuestra plataforma de aprendizaje</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="fullName">Nombre Completo</label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        required
+                        placeholder="Ingresa tu nombre completo"
+                    >
+                    <span class="error-message" id="fullNameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required
+                        placeholder="ejemplo@correo.com"
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required
+                            placeholder="Mínimo 8 caracteres"
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                            👁️
+                        </button>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span class="strength-text" id="strengthText">Fortaleza de contraseña</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña</label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            required
+                            placeholder="Repite tu contraseña"
+                        >
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                            👁️
+                        </button>
+                    </div>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Tipo de Usuario</label>
+                    <select id="role" name="role" required>
+                        <option value="">Selecciona tu rol</option>
+                        <option value="student">Estudiante</option>
+                        <option value="instructor">Instructor</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                    <span class="error-message" id="roleError"></span>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span class="checkmark"></span>
+                        Acepto los <a href="#" class="link">términos y condiciones</a>
+                    </label>
+                    <span class="error-message" id="termsError"></span>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <span class="checkmark"></span>
+                        Quiero recibir noticias y actualizaciones por email
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary" id="registerBtn">
+                    <span class="btn-text">Crear Cuenta</span>
+                    <span class="btn-loading" style="display: none;">Creando cuenta...</span>
+                </button>
+
+                <div class="form-footer">
+                    <p>¿Ya tienes una cuenta? <a href="../index.html" class="link">Iniciar Sesión</a></p>
+                </div>
+            </form>
+
+            <div class="success-message" id="successMessage" style="display: none;">
+                <div class="success-icon">✅</div>
+                <h3>¡Cuenta creada exitosamente!</h3>
+                <p>Serás redirigido al login en <span id="countdown">3</span> segundos...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth/registro.js"></script>
+</body>
+</html>

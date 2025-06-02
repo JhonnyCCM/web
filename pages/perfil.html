@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/layout.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/pages/perfil.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar izquierdo -->
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Mi Perfil</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Mi Perfil</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Cargando...</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Profile Content -->
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <section class="profile-header">
+                    <div class="profile-banner">
+                        <div class="banner-content">
+                            <div class="profile-picture">
+                                <img src="/placeholder.svg?height=120&width=120" alt="Profile Picture" id="profile-img">
+                                <button class="change-picture-btn">📷</button>
+                            </div>
+                            <div class="profile-info">
+                                <h1 class="profile-name" id="profileName">Cargando...</h1>
+                                <p class="profile-title" id="profileTitle">Cargando...</p>
+                                <div class="profile-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-number" id="statCourses">0</span>
+                                        <span class="stat-label">Cursos</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number" id="statHours">0</span>
+                                        <span class="stat-label">Horas</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number" id="statCertificates">0</span>
+                                        <span class="stat-label">Certificados</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile-actions">
+                                <button class="btn-primary" id="edit-profile-btn">✏️ Editar Perfil</button>
+                                <button class="btn-secondary">📤 Compartir</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Profile Content Grid -->
+                <div class="profile-content">
+                    <!-- Left Column -->
+                    <div class="profile-main">
+                        <!-- About Section -->
+                        <section class="profile-section">
+                            <h2>Acerca de mí</h2>
+                            <div class="about-content">
+                                <p id="bio-text">Cargando información...</p>
+                                <button class="edit-bio-btn" id="edit-bio-btn">✏️ Editar</button>
+                            </div>
+                        </section>
+
+                        <!-- Skills Section -->
+                        <section class="profile-section">
+                            <h2>Habilidades</h2>
+                            <div class="skills-container" id="skillsContainer">
+                                <!-- Las habilidades se cargarán dinámicamente -->
+                            </div>
+                        </section>
+
+                        <!-- Recent Activity -->
+                        <section class="profile-section">
+                            <h2>Actividad Reciente</h2>
+                            <div class="activity-list" id="activityList">
+                                <!-- La actividad se cargará dinámicamente -->
+                            </div>
+                        </section>
+
+                        <!-- Certificates -->
+                        <section class="profile-section">
+                            <h2>Certificados</h2>
+                            <div class="certificates-grid" id="certificatesGrid">
+                                <!-- Los certificados se cargarán dinámicamente -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Right Sidebar -->
+                    <div class="profile-sidebar">
+                        <!-- Current Courses -->
+                        <div class="sidebar-card">
+                            <h3>Cursos Actuales</h3>
+                            <div class="current-courses" id="currentCourses">
+                                <!-- Los cursos se cargarán dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Learning Goals -->
+                        <div class="sidebar-card">
+                            <h3>Metas de Aprendizaje</h3>
+                            <div class="goals-list" id="goalsList">
+                                <!-- Las metas se cargarán dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Study Streak -->
+                        <div class="sidebar-card">
+                            <h3>Racha de Estudio</h3>
+                            <div class="streak-info" id="streakInfo">
+                                <!-- La racha se cargará dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Contact Info -->
+                        <div class="sidebar-card">
+                            <h3>Información de Contacto</h3>
+                            <div class="contact-info" id="contactInfo">
+                                <!-- La información de contacto se cargará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-backdrop">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Editar Perfil</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-profile-form">
+                        <div class="form-group">
+                            <label for="edit-name">Nombre completo</label>
+                            <input type="text" id="edit-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-title">Título profesional</label>
+                            <input type="text" id="edit-title">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-bio">Biografía</label>
+                            <textarea id="edit-bio" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-email">Email</label>
+                            <input type="email" id="edit-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-location">Ubicación</label>
+                            <input type="text" id="edit-location">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-linkedin">LinkedIn</label>
+                            <input type="text" id="edit-linkedin">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancel-edit">Cancelar</button>
+                    <button type="submit" class="btn-primary" id="save-profile">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - MISMO ORDEN QUE CURSOS.HTML -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/perfil.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+</body>
+</html>

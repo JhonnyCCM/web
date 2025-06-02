@@ -1,0 +1,535 @@
+/* Estilos para la página del panel/dashboard */
+
+/* Actualizar el contenedor principal */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 70px;
+}
+
+/* Actualizar el dashboard container */
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+  transition: all 0.3s ease;
+}
+
+.dashboard-left,
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Widgets generales */
+.widget {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.widget-header h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.widget-menu {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.widget-menu:hover {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.update-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Course Schedule */
+.course-schedule {
+  flex: 1;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.schedule-item:hover {
+  background: var(--border-color);
+}
+
+.schedule-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.schedule-icon.marketing {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.schedule-icon.planning {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.schedule-icon.design {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.schedule-icon.management {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.schedule-info {
+  flex: 1;
+}
+
+.schedule-title {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.schedule-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Illustration Widget */
+.illustration-widget {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.illustration-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Continue Learning */
+.learning-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.learning-card {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.learning-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.learning-hours {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.learning-subject {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.learning-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.learning-icon.marketing {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.learning-icon.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.learning-icon.sales {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Hours Chart */
+.chart-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-color.ui-design {
+  background: #8b5cf6;
+}
+
+.legend-color.digital-marketing {
+  background: #a855f7;
+}
+
+.legend-color.completed {
+  background: #8b5cf6;
+}
+
+.legend-color.in-progress {
+  background: #d1d5db;
+}
+
+.legend-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.bar-chart {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  height: 120px;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.chart-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  position: relative;
+}
+
+.bar {
+  width: 20px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.bar.ui-design {
+  background: #8b5cf6;
+}
+
+.bar.digital-marketing {
+  background: #a855f7;
+}
+
+.bar-day {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Progress Chart */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.circular-progress {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.progress-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(#8b5cf6 0deg 234deg, #e5e7eb 234deg 360deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.progress-circle::before {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+}
+
+.progress-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.progress-percentage {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.progress-legend {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Assignments Table */
+.assignments-table {
+  overflow-x: auto;
+}
+
+.assignments-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assignments-table th,
+.assignments-table td {
+  text-align: left;
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.assignments-table th {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.assignment-row {
+  transition: background 0.3s ease;
+}
+
+.assignment-row:hover {
+  background: var(--bg-primary);
+}
+
+.assignment-number {
+  color: var(--text-muted);
+  font-weight: 600;
+  width: 40px;
+}
+
+.assignment-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.assignment-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.assignment-icon.marketing {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.assignment-icon.design {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.assignment-icon.business {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.assignment-details {
+  flex: 1;
+}
+
+.assignment-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.assignment-category {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.assignment-score {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.assignment-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.status-progress {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .learning-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Responsive mejorado */
+  .main-content.sidebar-collapsed .dashboard-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .learning-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .progress-legend {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .assignments-table {
+    font-size: 0.8rem;
+  }
+
+  .assignments-table th,
+  .assignments-table td {
+    padding: 0.75rem 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .widget {
+    padding: 1rem;
+  }
+
+  .widget-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .schedule-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .bar-chart {
+    padding: 0;
+  }
+}

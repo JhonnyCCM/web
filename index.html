@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - CourseConnect</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/pages/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Lado izquierdo - Formulario -->
+        <div class="login-form-section">
+            <div class="form-container">
+                <div class="welcome-header">
+                    <h1 class="welcome-title">
+                        <span class="welcome-text">Bienvenido a</span>
+                        <span class="brand-name">CourseConnect</span>
+                    </h1>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            placeholder="ejemplo@courseconnect.com"
+                            autocomplete="email"
+                            class="form-input"
+                        >
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <div class="password-container">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required
+                                placeholder="••••••••"
+                                autocomplete="current-password"
+                                class="form-input"
+                            >
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                <span class="toggle-icon">👁️</span>
+                            </button>
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-checkbox">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Recordar mi sesión</span>
+                        </label>
+                        <a href="#" class="forgot-link" onclick="showForgotPassword()">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="login-button" id="loginBtn">
+                        <span class="btn-text">INICIAR SESIÓN</span>
+                        <span class="btn-loading" style="display: none;">Iniciando...</span>
+                    </button>
+
+                    <div class="demo-section">
+                        <p class="demo-title">Credenciales de prueba:</p>
+                        <div class="demo-buttons">
+                            <button type="button" class="demo-btn" onclick="fillDemoCredentials('admin')">
+                                👨‍💼 Admin
+                            </button>
+                            <button type="button" class="demo-btn" onclick="fillDemoCredentials('student')">
+                                👨‍🎓 Estudiante
+                            </button>
+                            <button type="button" class="demo-btn" onclick="fillDemoCredentials('instructor')">
+                                👨‍🏫 Instructor
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="signup-link">
+                    <p>¿No tienes una cuenta? <a href="pages/registro.html" class="signup-btn">Regístrate</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lado derecho - Ilustración -->
+        <div class="illustration-section">
+            <div class="illustration-container">
+                <!-- Fondo con gradiente -->
+                <div class="gradient-bg"></div>
+                
+                <!-- Elementos decorativos -->
+                <div class="stars">
+                    <div class="star star-1"></div>
+                    <div class="star star-2"></div>
+                    <div class="star star-3"></div>
+                    <div class="star star-4"></div>
+                    <div class="star star-5"></div>
+                </div>
+
+                <!-- Luna -->
+                <div class="moon"></div>
+
+                <!-- Montañas -->
+                <div class="mountains">
+                    <div class="mountain mountain-1"></div>
+                    <div class="mountain mountain-2"></div>
+                    <div class="mountain mountain-3"></div>
+                </div>
+
+                <!-- Edificios/Estructuras -->
+                <div class="buildings">
+                    <div class="building building-1">
+                        <div class="building-light light-1"></div>
+                        <div class="building-light light-2"></div>
+                        <div class="building-light light-3"></div>
+                    </div>
+                    <div class="building building-2">
+                        <div class="building-window"></div>
+                        <div class="building-window"></div>
+                    </div>
+                    <div class="building building-3">
+                        <div class="building-detail"></div>
+                    </div>
+                </div>
+
+                <!-- Agua con reflejo -->
+                <div class="water">
+                    <div class="water-reflection"></div>
+                </div>
+
+                <!-- Elementos flotantes -->
+                <div class="floating-elements">
+                    <div class="floating-cube cube-1"></div>
+                    <div class="floating-cube cube-2"></div>
+                    <div class="floating-sphere"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de recuperación de contraseña -->
+    <div class="modal-overlay" id="forgotPasswordModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recuperar Contraseña</h3>
+                <button type="button" class="modal-close" onclick="hideForgotPassword()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.</p>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="forgotEmail">Correo Electrónico</label>
+                        <input 
+                            type="email" 
+                            id="forgotEmail" 
+                            name="forgotEmail" 
+                            required
+                            placeholder="ejemplo@correo.com"
+                            class="form-input"
+                        >
+                        <span class="error-message" id="forgotEmailError"></span>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="hideForgotPassword()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            Enviar Instrucciones
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth/login.js"></script>
+</body>
+</html>

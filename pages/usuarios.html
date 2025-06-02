@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/components/layout.css">
+    <link rel="stylesheet" href="../css/components/modal.css">
+    <link rel="stylesheet" href="../css/components/cards.css">
+    <style>
+        .users-container {
+            padding: 20px;
+        }
+        
+        .users-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .user-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .user-role {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .role-admin {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .role-instructor {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        
+        .role-student {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .user-email {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .user-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .user-stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filters-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background-color: var(--bg-muted);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-chip.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-container">
+                <div class="breadcrumb">
+                    <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-current">Usuarios</span>
+                </div>
+            </div>
+
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Gestión de Usuarios</h1>
+                </div>
+                <div class="header-center">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Buscar usuarios" id="searchInput">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="filter-btn">⚙️</button>
+                    <button class="notification-btn" onclick="showNotificationsModal()">
+                        🔔
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                        <span class="user-name" id="userName">Usuario</span>
+                        <span class="user-dropdown">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido de la página -->
+            <div class="users-container">
+                <div class="users-header">
+                    <h2>Todos los usuarios</h2>
+                    <button class="btn btn-primary">+ Añadir Usuario</button>
+                </div>
+                
+                <div class="filters-container">
+                    <div class="filter-chip active" data-filter="all">Todos</div>
+                    <div class="filter-chip" data-filter="admin">Administradores</div>
+                    <div class="filter-chip" data-filter="instructor">Instructores</div>
+                    <div class="filter-chip" data-filter="student">Estudiantes</div>
+                </div>
+                
+                <div class="users-grid" id="usersGrid">
+                    <!-- Se cargará dinámicamente -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/components/notifications.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+    <script>
+        class UsersManager {
+            constructor() {
+                this.users = [
+                    {
+                        id: 1,
+                        name: "Admin User",
+                        email: "admin@courseconnect.com",
+                        role: "admin",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 0,
+                        students: 0
+                    },
+                    {
+                        id: 2,
+                        name: "John Instructor",
+                        email: "john@courseconnect.com",
+                        role: "instructor",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 5,
+                        students: 120
+                    },
+                    {
+                        id: 3,
+                        name: "Jane Instructor",
+                        email: "jane@courseconnect.com",
+                        role: "instructor",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 3,
+                        students: 85
+                    },
+                    {
+                        id: 4,
+                        name: "Alice Student",
+                        email: "alice@example.com",
+                        role: "student",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 4,
+                        progress: 75
+                    },
+                    {
+                        id: 5,
+                        name: "Bob Student",
+                        email: "bob@example.com",
+                        role: "student",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 2,
+                        progress: 45
+                    },
+                    {
+                        id: 6,
+                        name: "Charlie Student",
+                        email: "charlie@example.com",
+                        role: "student",
+                        avatar: "/placeholder.svg?height=80&width=80",
+                        courses: 3,
+                        progress: 90
+                    }
+                ];
+                
+                this.currentFilter = 'all';
+                this.init();
+            }
+            
+            init() {
+                this.renderUsers();
+                this.setupEventListeners();
+                this.updateUserInfo();
+                this.adjustLayoutForSidebar();
+            }
+            
+            renderUsers() {
+                const usersGrid = document.getElementById('usersGrid');
+                if (!usersGrid) return;
+                
+                let filteredUsers = this.users;
+                if (this.currentFilter !== 'all') {
+                    filteredUsers = this.users.filter(user => user.role === this.currentFilter);
+                }
+                
+                usersGrid.innerHTML = filteredUsers.map(user => this.createUserCard(user)).join('');
+            }
+            
+            createUserCard(user) {
+                const statsHtml = user.role === 'student' 
+                    ? `
+                        <div class="user-stat">
+                            <div class="stat-value">${user.courses}</div>
+                            <div class="stat-label">Cursos</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-value">${user.progress}%</div>
+                            <div class="stat-label">Progreso</div>
+                        </div>
+                    `
+                    : `
+                        <div class="user-stat">
+                            <div class="stat-value">${user.courses}</div>
+                            <div class="stat-label">Cursos</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-value">${user.students}</div>
+                            <div class="stat-label">Estudiantes</div>
+                        </div>
+                    `;
+                
+                return `
+                    <div class="user-card">
+                        <img src="${user.avatar}" alt="${user.name}" class="user-avatar">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-role role-${user.role}">${this.formatRole(user.role)}</div>
+                        <div class="user-email">${user.email}</div>
+                        <div class="user-stats">
+                            ${statsHtml}
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-sm btn-secondary">Editar</button>
+                            <button class="btn btn-sm btn-danger">Eliminar</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            formatRole(role) {
+                const roles = {
+                    admin: 'Administrador',
+                    instructor: 'Instructor',
+                    student: 'Estudiante'
+                };
+                return roles[role] || role;
+            }
+            
+            setupEventListeners() {
+                const filterChips = document.querySelectorAll('.filter-chip');
+                filterChips.forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        filterChips.forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        this.currentFilter = chip.dataset.filter;
+                        this.renderUsers();
+                    });
+                });
+                
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.toLowerCase();
+                        this.users = this.users.filter(user => 
+                            user.name.toLowerCase().includes(query) || 
+                            user.email.toLowerCase().includes(query)
+                        );
+                        this.renderUsers();
+                    });
+                }
+            }
+            
+            updateUserInfo() {
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (currentUser) {
+                    const userNameElement = document.getElementById('userName');
+                    if (userNameElement) {
+                        userNameElement.textContent = currentUser.fullName;
+                    }
+                }
+            }
+            
+            adjustLayoutForSidebar() {
+                const mainContent = document.getElementById('mainContent');
+                if (mainContent) {
+                    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                    if (sidebarCollapsed) {
+                        mainContent.classList.add('sidebar-collapsed');
+                    }
+                }
+                
+                document.addEventListener('sidebar:toggled', (e) => {
+                    const mainContent = document.getElementById('mainContent');
+                    if (mainContent) {
+                        if (e.detail.collapsed) {
+                            mainContent.classList.add('sidebar-collapsed');
+                        } else {
+                            mainContent.classList.remove('sidebar-collapsed');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Inicializar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', () => {
+            window.usersManager = new UsersManager();
+        });
+
+        function toggleUserMenu() {
+            console.log('Toggle user menu');
+        }
+    </script>
+</body>
+</html>

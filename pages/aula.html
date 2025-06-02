@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula Virtual - CourseConnect</title>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components/sidebar.css">
+    <link rel="stylesheet" href="../css/components/header.css">
+    <link rel="stylesheet" href="../css/components/breadcrumb.css">
+    <link rel="stylesheet" href="../css/pages/aula.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Contenedor del sidebar modular -->
+        <div id="sidebarContainer"></div>
+
+        <!-- Contenido principal del aula -->
+        <main class="main-content" id="mainContent">
+            <!-- Header con breadcrumb -->
+            <header class="page-header">
+                <div class="breadcrumb-container">
+                    <div class="breadcrumb">
+                        <a href="inicio.html" class="breadcrumb-link">Inicio</a>
+                        <span class="breadcrumb-separator">›</span>
+                        <a href="cursos.html" class="breadcrumb-link">Cursos</a>
+                        <span class="breadcrumb-separator">›</span>
+                        <span class="breadcrumb-current" id="courseBreadcrumb">UI/UX Designer</span>
+                    </div>
+                </div>
+                
+                <div class="course-header">
+                    <div class="course-info">
+                        <h1 class="course-title" id="courseTitle">UI/UX Designer Masterclass</h1>
+                        <p class="course-subtitle" id="courseSubtitle">Versión Completa</p>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress-info">
+                            <span class="progress-text" id="progressText">45% Completado</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div class="user-profile-mini">
+                            <img src="/placeholder.svg?height=40&width=40" alt="User" class="user-avatar">
+                            <span class="user-name" id="userName">Joseph Mitchell</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenido principal del aula -->
+            <div class="classroom-content">
+                <!-- Panel izquierdo - Lista de lecciones -->
+                <aside class="lessons-panel">
+                    <div class="panel-header">
+                        <h3>Contenido del Curso</h3>
+                        <div class="lessons-progress">
+                            <span id="lessonsCompleted">12</span>/<span id="totalLessons">24</span> lecciones
+                        </div>
+                    </div>
+
+                    <!-- Módulos y lecciones -->
+                    <div class="modules-list" id="modulesList">
+                        <!-- Se cargará dinámicamente -->
+                    </div>
+
+                    <!-- Información del módulo actual -->
+                    <div class="current-module-info">
+                        <div class="module-card">
+                            <div class="module-header">
+                                <h4 id="currentModuleTitle">Módulo 1: Fundamentos</h4>
+                                <span class="module-badge" id="moduleBadge">En Progreso</span>
+                            </div>
+                            <div class="module-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Tema:</span>
+                                    <span class="detail-value" id="moduleSubject">Principios de Diseño</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Duración:</span>
+                                    <span class="detail-value" id="moduleDuration">45 minutos</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Lecciones:</span>
+                                    <span class="detail-value" id="moduleLessons">6 videos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Panel central - Reproductor y contenido -->
+                <div class="main-panel">
+                    <!-- Tabs de navegación -->
+                    <div class="content-tabs">
+                        <button class="tab-btn active" data-tab="video">
+                            <span class="tab-icon">🎥</span>
+                            <span class="tab-text">Video Lección</span>
+                        </button>
+                        <button class="tab-btn" data-tab="materials">
+                            <span class="tab-icon">📚</span>
+                            <span class="tab-text">Materiales</span>
+                        </button>
+                        <button class="tab-btn" data-tab="quiz">
+                            <span class="tab-icon">❓</span>
+                            <span class="tab-text">Quiz</span>
+                        </button>
+                        <button class="tab-btn" data-tab="notes">
+                            <span class="tab-icon">📝</span>
+                            <span class="tab-text">Mis Notas</span>
+                        </button>
+                    </div>
+
+                    <!-- Contenido de las tabs -->
+                    <div class="tab-content">
+                        <!-- Tab Video -->
+                        <div class="tab-panel active" id="videoPanel">
+                            <div class="video-container">
+                                <div class="video-player" id="videoPlayer">
+                                    <video controls poster="/placeholder.svg?height=400&width=700">
+                                        <source src="#" type="video/mp4">
+                                        Tu navegador no soporta el elemento video.
+                                    </video>
+                                    <div class="video-overlay" id="videoOverlay">
+                                        <div class="play-button" id="playButton">
+                                            <span class="play-icon">▶</span>
+                                        </div>
+                                        <div class="video-info">
+                                            <h3 id="videoTitle">Introducción a los Principios de Diseño</h3>
+                                            <p id="videoDuration">Duración: 12:45</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Controles del video -->
+                                <div class="video-controls">
+                                    <div class="controls-left">
+                                        <button class="control-btn" id="prevLessonBtn" title="Lección anterior">
+                                            <span>⏮</span>
+                                        </button>
+                                        <button class="control-btn" id="playPauseBtn" title="Reproducir/Pausar">
+                                            <span>▶</span>
+                                        </button>
+                                        <button class="control-btn" id="nextLessonBtn" title="Siguiente lección">
+                                            <span>⏭</span>
+                                        </button>
+                                        <div class="volume-control">
+                                            <button class="control-btn" id="volumeBtn">🔊</button>
+                                            <input type="range" class="volume-slider" min="0" max="100" value="100">
+                                        </div>
+                                    </div>
+                                    <div class="controls-center">
+                                        <div class="progress-container">
+                                            <input type="range" class="video-progress" min="0" max="100" value="0">
+                                            <div class="time-display">
+                                                <span id="currentTime">0:00</span> / <span id="totalTime">12:45</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="controls-right">
+                                        <button class="control-btn" id="speedBtn" title="Velocidad">1x</button>
+                                        <button class="control-btn" id="qualityBtn" title="Calidad">HD</button>
+                                        <button class="control-btn" id="fullscreenBtn" title="Pantalla completa">⛶</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Descripción de la lección -->
+                            <div class="lesson-description">
+                                <h4>Descripción de la Lección</h4>
+                                <p id="lessonDescription">
+                                    En esta lección aprenderás los principios fundamentales del diseño UI/UX, 
+                                    incluyendo la jerarquía visual, el contraste, la alineación y la proximidad. 
+                                    Estos conceptos son esenciales para crear interfaces efectivas y atractivas.
+                                </p>
+                                
+                                <!-- Recursos descargables -->
+                                <div class="lesson-resources">
+                                    <h5>Recursos de la Lección</h5>
+                                    <div class="resources-list">
+                                        <a href="#" class="resource-item">
+                                            <span class="resource-icon">📄</span>
+                                            <span class="resource-name">Guía de Principios de Diseño.pdf</span>
+                                            <span class="resource-size">2.3 MB</span>
+                                        </a>
+                                        <a href="#" class="resource-item">
+                                            <span class="resource-icon">🎨</span>
+                                            <span class="resource-name">Plantillas de Figma</span>
+                                            <span class="resource-size">Archivo</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Materiales -->
+                        <div class="tab-panel" id="materialsPanel">
+                            <div class="materials-content">
+                                <h4>Materiales del Módulo</h4>
+                                <div class="materials-grid">
+                                    <div class="material-card">
+                                        <div class="material-icon">📖</div>
+                                        <h5>Lectura Complementaria</h5>
+                                        <p>Artículos y recursos adicionales sobre principios de diseño</p>
+                                        <button class="btn-secondary">Ver Materiales</button>
+                                    </div>
+                                    <div class="material-card">
+                                        <div class="material-icon">💻</div>
+                                        <h5>Ejercicios Prácticos</h5>
+                                        <p>Actividades hands-on para aplicar lo aprendido</p>
+                                        <button class="btn-secondary">Comenzar</button>
+                                    </div>
+                                    <div class="material-card">
+                                        <div class="material-icon">🎯</div>
+                                        <h5>Proyecto Final</h5>
+                                        <p>Crea tu primer diseño aplicando todos los conceptos</p>
+                                        <button class="btn-primary">Acceder</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab Quiz -->
+                        <div class="tab-panel" id="quizPanel">
+                            <div class="quiz-content">
+                                <div class="quiz-header">
+                                    <h4>Quiz: Principios de Diseño</h4>
+                                    <div class="quiz-info">
+                                        <span class="quiz-questions">5 preguntas</span>
+                                        <span class="quiz-time">10 minutos</span>
+                                    </div>
+                                </div>
+                                <div class="quiz-description">
+                                    <p>Evalúa tu comprensión de los principios fundamentales del diseño UI/UX.</p>
+                                </div>
+                                <button class="btn-primary quiz-start-btn">Comenzar Quiz</button>
+                            </div>
+                        </div>
+
+                        <!-- Tab Notas -->
+                        <div class="tab-panel" id="notesPanel">
+                            <div class="notes-content">
+                                <div class="notes-header">
+                                    <h4>Mis Notas</h4>
+                                    <button class="btn-secondary" id="addNoteBtn">+ Agregar Nota</button>
+                                </div>
+                                <div class="notes-list" id="notesList">
+                                    <!-- Las notas se cargarán dinámicamente -->
+                                </div>
+                                <div class="note-editor" id="noteEditor" style="display: none;">
+                                    <textarea placeholder="Escribe tu nota aquí..." id="noteTextarea"></textarea>
+                                    <div class="note-actions">
+                                        <button class="btn-primary" id="saveNoteBtn">Guardar</button>
+                                        <button class="btn-secondary" id="cancelNoteBtn">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel derecho - Estadísticas y progreso -->
+                <aside class="stats-panel">
+                    <div class="panel-header">
+                        <h3>Tu Progreso</h3>
+                    </div>
+
+                    <!-- Score actual -->
+                    <div class="score-card">
+                        <div class="score-header">
+                            <h4>Puntuación Actual</h4>
+                        </div>
+                        <div class="score-display">
+                            <div class="score-number" id="currentScore">85%</div>
+                            <div class="score-details">
+                                <span>Respuestas correctas: <strong id="correctAnswers">17/20</strong></span>
+                            </div>
+                        </div>
+                        <div class="score-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas de estudio -->
+                    <div class="study-stats">
+                        <h4>Estadísticas</h4>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">⏱️</div>
+                                <div class="stat-info">
+                                    <span class="stat-value">2h 45m</span>
+                                    <span class="stat-label">Tiempo estudiado</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🎯</div>
+                                <div class="stat-info">
+                                    <span class="stat-value">12/24</span>
+                                    <span class="stat-label">Lecciones completadas</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">📝</div>
+                                <div class="stat-info">
+                                    <span class="stat-value">8</span>
+                                    <span class="stat-label">Notas creadas</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🏆</div>
+                                <div class="stat-info">
+                                    <span class="stat-value">3</span>
+                                    <span class="stat-label">Logros obtenidos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Próximas tareas -->
+                    <div class="upcoming-tasks">
+                        <h4>Próximas Tareas</h4>
+                        <div class="tasks-list">
+                            <div class="task-item">
+                                <div class="task-icon">📋</div>
+                                <div class="task-info">
+                                    <span class="task-title">Quiz Módulo 2</span>
+                                    <span class="task-due">Vence en 2 días</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-icon">🎨</div>
+                                <div class="task-info">
+                                    <span class="task-title">Proyecto Wireframes</span>
+                                    <span class="task-due">Vence en 5 días</span>
+                                </div>
+                            </div>
+                            <div class="task-item">
+                                <div class="task-icon">👥</div>
+                                <div class="task-info">
+                                    <span class="task-title">Revisión por Pares</span>
+                                    <span class="task-due">Vence en 1 semana</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de ayuda -->
+                    <div class="help-section">
+                        <button class="help-btn">
+                            <span class="help-icon">💬</span>
+                            <span class="help-text">¿Necesitas ayuda?</span>
+                        </button>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para quiz -->
+    <div class="modal-overlay" id="quizModal" style="display: none;">
+        <div class="modal-content quiz-modal">
+            <div class="modal-header">
+                <h3>Quiz: Principios de Diseño</h3>
+                <button type="button" class="modal-close" onclick="closeQuizModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="quiz-question" id="quizQuestion">
+                    <!-- Las preguntas se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/auth/auth-guard.js"></script>
+    <script src="../js/services/storage.js"></script>
+    <script src="../components/sidebar/sidebar-data.js"></script>
+    <script src="../js/components/sidebar.js"></script>
+    <script src="../js/pages/aula.js"></script>
+    <script src="../js/components/breadcrumb.js"></script>
+</body>
+</html>
